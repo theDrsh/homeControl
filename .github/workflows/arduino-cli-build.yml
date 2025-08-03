@@ -1,0 +1,29 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**/README.md"
+  pull_request:
+  workflow_dispatch:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build-check:
+    name: Build and Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Arduino CLI
+        uses: arduino/setup-arduino-cli@v2
+      - name: Install libraries
+        run: |
+          arduino-cli lib install "ArduinoJson"
+          arduino-cli lib install "ESPAsyncWebServer"
+      - name: Compile Sketch
+        run: arduino-cli compile --fqbn esp32:esp32:esp32 homeControl.ino
