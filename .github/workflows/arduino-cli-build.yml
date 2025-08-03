@@ -23,7 +23,7 @@ jobs:
         uses: arduino/setup-arduino-cli@v2
       - name: Install libraries
         run: |
-          arduino-cli lib install "ArduinoJson"
-          arduino-cli lib install "ESPAsyncWebServer"
+          arduino-cli core update-index --config-file arduino-cli.yaml
+          arduino-cli core install esp32:esp32
       - name: Compile Sketch
         run: arduino-cli compile --fqbn esp32:esp32:esp32 homeControl.ino
